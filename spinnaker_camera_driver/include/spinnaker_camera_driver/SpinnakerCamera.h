@@ -56,6 +56,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <spinnaker_camera_driver/SpinnakerConfig.h>
 #include "spinnaker_camera_driver/camera.h"
 #include "spinnaker_camera_driver/cm3.h"
+#include "spinnaker_camera_driver/flea3.h"
 #include "spinnaker_camera_driver/set_property.h"
 
 // Spinnaker SDK
@@ -85,6 +86,8 @@ public:
   * \return Returns true when the configuration could be applied without modification.
   */
   void setNewConfiguration(const spinnaker_camera_driver::SpinnakerConfig& config, const uint32_t& level);
+
+  void setImageControlFormats(const spinnaker_camera_driver::SpinnakerConfig& config, const uint32_t& level);
 
   /** Parameters that need a sensor to be stopped completely when changed. */
   static const uint8_t LEVEL_RECONFIGURE_CLOSE = 3;
@@ -126,7 +129,7 @@ public:
   *
   * This function will stop the camera capturing images and loading them into the buffer.
   */
-  void stop();
+  bool stop();
 
   /*!
   * \brief Loads the raw data from the cameras buffer.

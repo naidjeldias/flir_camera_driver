@@ -231,6 +231,8 @@ void SpinnakerCamera::connect()
         camera_.reset(new Camera(node_map_));
       else if (model_name_str.find("Chameleon3") != std::string::npos)
         camera_.reset(new Cm3(node_map_));
+      else if (model_name_str.find("Flea3") != std::string::npos)
+        camera_.reset(new Flea3(node_map_));
       else
       {
         camera_.reset(new Camera(node_map_));
@@ -302,8 +304,9 @@ void SpinnakerCamera::start()
   }
 }
 
-void SpinnakerCamera::stop()
+bool SpinnakerCamera::stop()
 {
+   std::cout << "Stoping Acquisition " << std::endl;
   if (pCam_ && captureRunning_)
   {
     // Stop capturing images
@@ -311,12 +314,15 @@ void SpinnakerCamera::stop()
     {
       captureRunning_ = false;
       pCam_->EndAcquisition();
+      return true;
     }
     catch (const Spinnaker::Exception& e)
     {
       throw std::runtime_error("[SpinnakerCamera::stop] Failed to stop capture with error: " + std::string(e.what()));
     }
   }
+
+  return false;
 }
 
 void SpinnakerCamera::grabImage(sensor_msgs::Image* image, const std::string& frame_id)

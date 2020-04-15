@@ -361,7 +361,7 @@ private:
         boost::bind(&SpinnakerCameraNodelet::diagCb, this);
     diagnostics_pub_.reset(
         new ros::Publisher(nh.advertise<diagnostic_msgs::DiagnosticArray>(
-            "/diagnostics", 1, diag_cb, diag_cb)));
+            "camera/diagnostics", 1, diag_cb, diag_cb)));
 
     diag_man = std::unique_ptr<DiagnosticsManager>(new DiagnosticsManager(
         frame_id_, std::to_string(spinnaker_.getSerial()), diagnostics_pub_));
